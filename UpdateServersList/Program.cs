@@ -16,11 +16,6 @@ namespace UpdateServersList
         static void Main()
         {
             UpdateServersListService service = new UpdateServersListService();
-            if (service._standalone) return;
-
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[] { service };
-            ServiceBase.Run(ServicesToRun);
-        }
+         }
     }
 }
