@@ -38,7 +38,7 @@ namespace FTempoToFPExporter
             String startingDateStr = startingDate.Date.ToString("yyyy-MM-dd").Substring(0, 10);
 
 
-            //-----------------------------------------------SAVE OUT THE DIFFERENCE FILE----------------------------------------------------
+            //-----------------------------------------------GRAB THE DIFFERENCE DATA ----------------------------------------------------
 
             // THIS GIVES A SERVER ERROR 500
             string url = @"https://support.bradyplc.com/plugins/servlet/tempo-getWorklog/?dateFrom=" + startingDateStr + "&dateTo=" + nowDateStr + "&format=xml&diffOnly=false&tempoApiToken=b7201cde-15d4-4e51-8f98-2d65456ce422";
@@ -76,21 +76,24 @@ namespace FTempoToFPExporter
 
         public static int SaveStatus(DataSet objdatasetdto, String startingDateStr)
         {
-            //var keyz = System.Configuration.ConfigurationSettings.AppSettings.Keys;
-            //string s = string.Empty;
-            //foreach (var key in keyz)
-            //{
-            //    s += key.ToString() + "\t";
-            //}
+
             String theConnection = System.Configuration.ConfigurationSettings.AppSettings["theFPConnection"];
             //@"Server=AQUASQL\SQL2008;Database=A_JR_AQUADEMO;User id=support;Password=sqlsql";
             SqlConnection objcon = new SqlConnection(theConnection);
-            //(System.Configuration.ConfigurationManager.ConnectionStrings[@"Data source=AQUASQL\SQL2008;Initial catalog=A_JR_AQUADEMO;User id=support;Password=sqlsql"].ToString());
 
             int theRows = objdatasetdto.Tables[0].Rows.Count;
             DataTable thetable = objdatasetdto.Tables[0];
 
             DataRow therow = thetable.Rows[1];
+
+
+            // FIRST delete any adhoc runs that have not yet been processed - otherwise we'll end up with duplicates
+            string deletePrevUploadQuery = @"delete from UDEF_TS_JIRA_STAGING where FPHeaderID is null and Status !='U' and Status !='P'";
+
+            SqlDataAdapter objdaDelete = new SqlDataAdapter(deletePrevUploadQuery, objcon);
+            objcon.Open();
+            objdaDelete.SelectCommand.ExecuteNonQuery();
+            objcon.Close();
 
 
             for (int i = 0; i < objdatasetdto.Tables[0].Rows.Count; i++)
@@ -124,25 +127,8 @@ namespace FTempoToFPExporter
                             theFPAccountCode = theFPAccountCode.Substring(0, firstCharacter);
                         }
 
-                        // Sort out the roles. Possibly no need to do this now that its in the list.
-                        if (thetable.Rows[i].ItemArray[9].ToString().Contains("Overtime"))
-                        {
-                            theRole = "slave";
-                        }
-                        else if (thetable.Rows[i].ItemArray[9].ToString().Contains("Consulting"))
-                        {
-                            theRole = "consultant";
-                        }
-                        else if (thetable.Rows[i].ItemArray[9].ToString().Contains("Developer"))
-                        {
-                            theRole = "developer";
-                        }
-                        else if (thetable.Rows[i].ItemArray[9].ToString().Contains("Tester"))
-                        {
-                            theRole = "tester";
-                        }
-
-                        string query = @"insert into JGTest (UserID, WorkDescription, Hours,  DateofWork, FPProject, FPCostCenter, WorkerRole, IDinTempo, Customer) 
+                        // now put in the results
+                        string query = @"insert into UDEF_TS_JIRA_STAGING (UserID, WorkDescription, Hours,  DateofWork, FPProject, FPCostCentre, WorkerRole, IDinTempo, Customer) 
                                                values ('" + thetable.Rows[i].ItemArray[7].ToString() + "', '" + thetable.Rows[i].ItemArray[2].ToString()
                                                           + " : " + theWorkDescription + "', " + thetable.Rows[i].ItemArray[3] + ", '"
                                                           + theDate + "', '" + theFPProject + "',  '" + theFPAccountCode + "', '" + theRole + "',"
@@ -162,7 +148,7 @@ namespace FTempoToFPExporter
 
             String thedate = startingDateStr;
             // Mark rows as P for previous if the worklog is for the previous week
-            string previousquery = @"update JGTest set Status = 'P'  where FPDetailID is not null and dateofwork <  '" + thedate + "'";
+            string previousquery = @"update UDEF_TS_JIRA_STAGING set Status = 'P'  where FPDetailID is not null and dateofwork <  '" + thedate + "'";
             SqlDataAdapter objda0 = new SqlDataAdapter(previousquery, objcon);
             objcon.Open();
             objda0.SelectCommand.ExecuteNonQuery();
@@ -170,30 +156,39 @@ namespace FTempoToFPExporter
 
 
             // Mark rows as deleted if the worklog doesnt come through
-            string deletequery = @"update JGTest set Status = 'D'  where FPDetailID is not null and status !='P' and IDintempo not in 
-                                                                          (select IDintempo from JGTest where FPDetailID is  null)";
+            // We dont consider rows that are previous.  These are already approved in FP so cannot be deleted even if this has been done in JIRA
+            string deletequery = @"update UDEF_TS_JIRA_STAGING set Status = 'D'  where FPDetailID is not null and status !='P' and IDintempo not in 
+                                                                          (select IDintempo from UDEF_TS_JIRA_STAGING where FPDetailID is  null)";
             SqlDataAdapter objda2 = new SqlDataAdapter(deletequery, objcon);
             objcon.Open();
             objda2.SelectCommand.ExecuteNonQuery();
             objcon.Close();
 
+            // Mark rows as U again as they have been uploaded
+            string uploadMarkquery = @"update UDEF_TS_JIRA_STAGING set Status = 'U'  where Status = 'P'";
+            SqlDataAdapter objdaa = new SqlDataAdapter(uploadMarkquery, objcon);
+            objcon.Open();
+            objdaa.SelectCommand.ExecuteNonQuery();
+            objcon.Close();
+
             // Mark new rows where the ID is not already in FP
-            string newquery = @"update JGTest set Status = 'N'  where FPDetailID is  null and IDintempo not in 
-                                                                 (select IDintempo from JGTest where FPDetailID is not null)";
+            string newquery = @"update UDEF_TS_JIRA_STAGING set Status = 'N'  where FPDetailID is  null and IDintempo not in 
+                                                                 (select IDintempo from UDEF_TS_JIRA_STAGING where FPDetailID is not null)";
             SqlDataAdapter objda3 = new SqlDataAdapter(newquery, objcon);
             objcon.Open();
             objda3.SelectCommand.ExecuteNonQuery();
             objcon.Close();
 
             // Mark records as S for same where the record is coming through the same
-            string markSamequery = @" update JGTest set Status = 'S' where Status is null and exists
-                                                (select * from JGTest b where JGTest.IDintempo = b.IDinTempo
-                                                    and JGTest.hours = b.Hours
-                                                    and JGTest.DateofWork = b.DateofWork
-                                                    and JGTest.FPProject = b.FPProject
-                                                    and JGTest.FPCostCenter = b.FPCostCenter
-                                                    and JGTest.WorkerRole = b.WorkerRole
-                                                    and JGTest.Customer = b.Customer
+            string markSamequery = @" update UDEF_TS_JIRA_STAGING set Status = 'S' where Status is null and exists
+                                                (select * from UDEF_TS_JIRA_STAGING b where UDEF_TS_JIRA_STAGING.IDintempo = b.IDinTempo
+                                                    and UDEF_TS_JIRA_STAGING.hours = b.Hours
+                                                    and UDEF_TS_JIRA_STAGING.DateofWork = b.DateofWork
+                                                    and UDEF_TS_JIRA_STAGING.FPProject = b.FPProject
+                                                    and UDEF_TS_JIRA_STAGING.FPCostCentre = b.FPCostCentre
+                                                    and UDEF_TS_JIRA_STAGING.WorkerRole = b.WorkerRole
+                                                    and UDEF_TS_JIRA_STAGING.Customer = b.Customer
+                                                    and UDEF_TS_JIRA_STAGING.WorkDescription = b.WorkDescription
                                                     and Status is not null)";
             SqlDataAdapter objda4 = new SqlDataAdapter(markSamequery, objcon);
             objcon.Open();
@@ -201,20 +196,20 @@ namespace FTempoToFPExporter
             objcon.Close();
 
             // Delete the rows where the record is coming through the same
-            string deleteSamequery = @" delete from JGTest where Status = 'S' and FPDetailID is null";
+            string deleteSamequery = @" delete from UDEF_TS_JIRA_STAGING where Status = 'S' and FPDetailID is null";
             SqlDataAdapter objda5 = new SqlDataAdapter(deleteSamequery, objcon);
             objcon.Open();
             objda5.SelectCommand.ExecuteNonQuery();
             objcon.Close();
 
+
             //CHANGED Now mark the changed rows as changed
-            string changedquery = @"update JGTest set Status = 'C' where IDinTempo in
+            string changedquery = @"update UDEF_TS_JIRA_STAGING set Status = 'C' where IDinTempo in
                                                      (select IDinTempo where Status is null and FPDetailID is null)";
             SqlDataAdapter objda6 = new SqlDataAdapter(changedquery, objcon);
             objcon.Open();
             objda6.SelectCommand.ExecuteNonQuery();
             objcon.Close();
-
 
             return 1;
         }
