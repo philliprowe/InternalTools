@@ -175,7 +175,8 @@ namespace UpdateServersList
                     last = previoushtml.IndexOf("</p></td>", pointer);
                     previouserrors = previoushtml.Substring(first, last - first);
                     if (previouserrors == "-") previouserrors = string.Empty;
-
+                    if (previouserrors == "<img src = 'tick.png' alt = 'On' width = '20' height = '20'><span style = display:none>On<span style = display:inline>") previouserrors = " On ";
+                    if (previouserrors == "<img src = 'tick.png' alt = 'On' width = '20' height = '20'><span style = display:none>Off<span style = display:inline>") previouserrors = " Off ";
                     pointer = pointer + 3;
 
                     pointer = previoushtml.IndexOf("<td>", pointer);
@@ -239,6 +240,8 @@ namespace UpdateServersList
                     first = pointer + 7;
                     last = previoushtml.IndexOf("</p></td>", pointer);
                     previouserrors = previoushtml.Substring(first, last - first);
+                    if (previouserrors == "<img src = 'tick.png' alt = 'On' width = '20' height = '20'><span style = display:none>On<span style = display:inline>") previouserrors = " On ";
+                    if (previouserrors == "<img src = 'cross.png' alt = 'Off' width = '20' height = '20'><span style = display:none>Off<span style = display:inline>") previouserrors = " Off ";
                     if (previouserrors == "-") previouserrors = string.Empty;
 
                     previousDatabases.Add(new VersionType(previousid, previousversion, previouscompile, previousoracleversion,string.Empty,string.Empty,string.Empty, previouserrors, string.Empty, string.Empty));
@@ -269,6 +272,8 @@ namespace UpdateServersList
                     "<html xmlns=\"http://www.w3.org/TR/REC-html40\">\r\n" +
                     "<head>\r\n" +
                     "<meta http-equiv=Content-Type content=\"text/html; charset=windows-1252\">\r\n" +
+                    "<script src=\"sorttable.js\"></script>"+
+                    "<title>Current Trinity Terminal Servers</title>" +
                     "</head>\r\n" +
                     "<body lang=EN-GB style='tab-interval:36.0pt'>\r\n";
                 const string fileFooter =
@@ -276,36 +281,36 @@ namespace UpdateServersList
                 string serverTypeTable = 
                     "<table border = 1 bordercolor = lightgray cellspacing = 0 cellpadding = 5 style = 'font-family: sans-serif;font-size: small; font-weight: bold; background-color:Gainsboro'>\r\n" +
                     "<tr>" +
-                    "<td><p>Type</p></td>\r\n" +
                     "<td><p>For</p></td>\r\n" +
                     "<td><p>Upgrades</p></td>\r\n" +
                     "</tr>" +
                     "<tr style = 'font-weight: normal; background-color:#FFD'>\r\n" +
                     "<td><p>Demo</p></td>\r\n" +
-                    "<td><p>Demo</p></td>\r\n" +
                     "<td><p>" + _ServerTypeTableDemo + "</p></td>\r\n" +
                     "</tr>" +
                     "<tr style = 'font-weight: normal; background-color:#E0F0FF'>\r\n" +
-                    "<td><p>Client Patch</p></td>\r\n" +
                     "<td><p>Development</p></td>\r\n" +
                     "<td><p>" + _ServerTypeTableDevelopment + "</p></td>\r\n" +
                     "</tr>" +
                     "<tr style = 'font-weight: normal; background-color:#FFE7E7'>\r\n" +
-                    "<td><p>Latest Client</p></td>\r\n" +
                     "<td><p>Client Services</p></td>\r\n" +
                     "<td><p>" + _ServerTypeTableClient + "</p></td>\r\n" +
                     "</tr>" +
                     "</table>";
                 string serverTableHeader =
-                    "<table width='100%'>"+
-                    "<tr>" +
-                    "<td align='left'><span style='font-weight: bold; font-family: sans-serif; font-size: x-large'>Servers</td>" +
-                    "<td align='right'><span style='font-family: sans-serif; font-size: medium; font-weight: bold'> Last Updated: <span style='font-weight:normal'>" + lastUpdated + "</td>"+
+                    "<table>"+
+                    "<tr>" +                    
+                    "<td><img src = 'BradyLogo.jpg' height  = '55' width = '220' />" +
+                    "<td style='font-weight: bold; font-family: sans-serif; font-size: xx-large'> &nbsp Current Trinity Terminal Servers" +
+                    "</table>" +
+                    "<table width = '100%'>" +
+                    "<td align='left' style='font-weight: bold; font-family: sans-serif; font-size: x-large'>Servers</td>" +
+                    "<td align='right' style='font-family: sans-serif; font-size: medium; font-weight: bold'> Last Updated: <span style='font-weight:normal'>" + lastUpdated + "</td>"+
                     "</tr>" +
                     "</table>\r\n"+
                     serverTypeTable+
                     "<p></p>"+
-                    "<table border=1 bordercolor = gray cellspacing=0 cellpadding=2 style='font-family: sans-serif; font-size: small'>\r\n" +
+                    "<table class = \"sortable\" border=1 bordercolor = gray cellspacing=0 cellpadding=2 style='font-family: sans-serif; font-size: small'>\r\n" +
                     " <tr style='font-weight: bold; text-align:center;background-color:Gainsboro' >\r\n" +
                     "  <td><p>Server</p></td>\r\n" +
                     "  <td><p>Version</p></td>\r\n" +
@@ -325,14 +330,14 @@ namespace UpdateServersList
                     "<td align='left'><span style='font-weight: bold; font-family: sans-serif; font-size: x-large'>Databases</td>" +
                     "</tr>" +
                     "</table>\r\n" +
-                    "<table border=1 bordercolor=gray cellspacing=0 cellpadding=2 style='font-family: sans-serif; font-size: small'>\r\n" +
+                    "<table class = \"sortable\" border=1 bordercolor=gray cellspacing=0 cellpadding=2 style='font-family: sans-serif; font-size: small'>\r\n" +
                     " <tr style='font-weight: bold; text-align:center;background-color:Gainsboro'>\r\n" +
                     "  <td><p>Database</p></td>\r\n" +
                     "  <td><p>Version</p></td>\r\n" +
                     "  <td><p>Compile</p></td>\r\n" +
                     "  <td><p>Oracle Version</p></td>\r\n" +
                     "  <td><p>Servers</p></td>\r\n" +
-                    "  <td><p>Error</p></td>\r\n" +
+                    "  <td><p>On</p></td>\r\n" +
                     " </tr>\r\n";
                 const string tableFooter =
                     "</table>\r\n";
@@ -407,7 +412,7 @@ namespace UpdateServersList
                 conn.Close();
                 conn.Dispose();
 
-                error = "On";
+                error = " On ";
 
 
                 Databases.Add(new VersionType(dsn, version, compile, oracleversion, string.Empty, string.Empty,string.Empty,error, string.Empty, string.Empty));
@@ -435,12 +440,12 @@ namespace UpdateServersList
 
                 if (ex.Number == 12514)
                 {
-                    error = "Database turned off";
+                    error = " Off ";
                 }
                 else
                 {
                     error = ex.Message.Replace("\r\n", string.Empty);
-                    }
+                }
 
 
                 Databases.Add(new VersionType(dsn, version, compile, oracleversion, string.Empty, string.Empty, string.Empty,error, string.Empty, string.Empty));
@@ -538,6 +543,8 @@ namespace UpdateServersList
             if (architecture == string.Empty | architecture == null) architecture = "-";
             if (processorid == string.Empty | processorid == null) processorid = "-";
             if (errors == string.Empty | errors == null) errors = "-";
+            if (errors == " On ") errors = "<img src = 'tick.png' alt = 'On' width = '20' height = '20'><span style = display:none>On<span style = display:inline>";
+            if (errors == " Off ") errors = "<img src = 'cross.png' alt = 'Off' width = '20' height = '20'><span style = 'display:none'>Off<span style = 'display:inline'>";
             if (comments == string.Empty | comments == null) comments = "-";
 
             if (type == "demo")
@@ -566,7 +573,18 @@ namespace UpdateServersList
             if (compile == string.Empty | compile == null) compile = "-";
             if (items == string.Empty | items == null) items = "-";
             if (oracleversion == string.Empty | oracleversion == null) oracleversion = "-";
-            if (errors == string.Empty | errors == null) errors = "-";
+            if (errors == string.Empty | errors == null)
+            {
+                errors = "-";
+            }
+            else if (errors == " On ")
+            {
+                errors = "<img src = 'tick.png' alt = 'On' width = '20' height = '20'><span style = 'display:none'>On<span style = 'display:inline'>";
+            }else if (errors == " Off ") 
+            {
+                errors = "<img src = 'cross.png' alt = 'Off' width = '20' height = '20'><span style = 'display:none'>Off<span style = 'display:inline'>";
+            }
+
             output += string.Format("\r\n <tr font-size: x-small>\r\n  <td><p>{0}</p></td>\r\n  <td><p>{1}</p></td>\r\n  <td><p>{2}</p></td>\r\n  <td><p>{3}</p></td>\r\n <td><p>{4}</p></td>\r\n <td><p>{5}</p></td>\r\n </tr>",id, version, compile, oracleversion,items,errors);
           Debug.Print(string.Format("ID : {0}\tVersion : {1}\tCompile : {2}", id, version, compile));
         }
