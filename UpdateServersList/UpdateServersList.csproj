@@ -90,7 +90,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerType.cs" />
-    <Compile Include="UpdateServersListService.cs" />
+    <Compile Include="UpdateServersListService.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UpdateServersListService.Designer.cs">
       <DependentUpon>UpdateServersListService.cs</DependentUpon>
     </Compile>
