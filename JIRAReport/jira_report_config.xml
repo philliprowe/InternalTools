@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jira_report_config>
+	<client_config>
+		<client name="Aleris" lname="Aleris">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>James.Osborne@aleris.com</email>
+			<email>benjamin.brown@aleris.com</email>
+        </client>
+		
+		<client name="AMC" lname="Amalgamated Metal Corporation ">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>Gavin.Slater@amcgroup.com</email>
+			<email>mary.casey@amcgroup.com</email>
+			<email>amtopval@amcgroup.com</email>
+			<email>Trina.Humphrey@amcgroup.com</email>
+        </client>
+		
+		<client name="AMT" lname="Amalgamated Metal Trading Company Ltd">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>amct@bradyplc.com</email>
+        </client>
+		
+		<client name="Bayin" lname="Bayin Resources Company ">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>damien.cascarino@bayinresources.com</email>
+			<email>karen.chan@bayinresources.com</email>
+        </client>
+		
+		<client name="Codelco" lname="Codelco ">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>rbanegas@codelco.cl</email>
+			<email>csand008@codelco.cl</email>
+			<email>colguin@codelco.cl</email>
+        </client>
+		
+		<client name="Constellium" lname="Constellium ">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>kerry.saunders@constellium.com</email>
+			<email>treasurysupport@constellium.com</email>
+        </client>
+		
+		<client name="Ducab" lname="Ducab">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>aliasgar@ducab.com</email>
+			<email>mthoufeek@ducab.com</email>
+        </client>
+		
+		<client name="Freepoint" lname="Freepoint ">
+			<project>Aquarius</project>
+			<project>Aquarius Development</project>
+			<project>Aquarius Archive</project>
+            <priority>0</priority>
+            <email>KCONNELL@FREEPOINT.COM</email>
+			<email>WCHOW@FREEPOINT.COM</email>
+        </client>
+		
+		<client name="Gerald" lname="Gerald Metals">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+			<project>Aquarius</project>
+			<project>Aquarius Development</project>
+			<project>Aquarius Archive</project>
+            <priority>0</priority>
+            <email>jberger@gerald.com</email>
+        </client>
+		
+		<client name="Glencore" lname="Glencore International">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>Themis.Zinoulis@glencore.com</email>
+        </client>
+		
+		<client name="HSBC" lname="HSBC">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>clive.wales@hsbcib.com</email>
+			<email>sam.kumar@hsbcib.com</email>
+			<email>scott.wilks@hsbcib.com</email>
+			<email>pank.tailor@hsbcib.com</email>
+        </client>
+		
+		<client name="Jefferies" lname="Jefferies ">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>smehlman@jefferies.com</email>
+			<email>jbermejo@jefferies.com</email>
+        </client>
+		
+		<client name="KGHM" lname="KGHM Polska Miedz">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+			<project>Aquarius</project>
+			<project>Aquarius Development</project>
+			<project>Aquarius Archive</project>
+            <priority>0</priority>
+            <email>L.Bielak@kghm.pl</email>
+			<email>P.Brzozka@kghm.pl</email>
+        </client>
+		
+		<client name="Koch" lname="Koch Metals Trading ">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>Kevin.Brunton@kochind.com</email>
+			<email>Adam.Galyon@kochind.com</email>
+			<email>dave.coxell@kochind.com</email>
+        </client>
+		
+		<client name="Louis Drefus" lname="Louis Dreyfus Metals ">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+			<project>Aquarius</project>
+			<project>Aquarius Development</project>
+			<project>Aquarius Archive</project>
+            <priority>0</priority>
+            <email>sofia.ballote@ldcom.com</email>
+			<email>gael.desbians@ldcom.com</email>
+            <email>Muriel.Pernollet@ldcom.com</email>
+        </client>
+		
+		<client name="Marex Spectron" lname="Marex Spectron">
+			<project>Opval</project>
+			<project>Opval Archive</project>
+			<project>OPVAL Development</project>
+            <priority>0</priority>
+            <email>aleloutre@marex.com</email>
+			<email>SSachdev@marexspectron.com</email>
+            <email>MFlynn@marexspectron.com</email>
+        </client>
+		
+		<client name="MCIE" lname="Mitsubishi Corporation International Europe ">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>alpa.sthankiya@mitsubishicorp.com</email>
+			<email>alex.g.d-adam@mitsubishicorp.com</email>
+        </client>
+		
+		<client name="MCNY" lname="Mitsubishi International  Corporation NY ">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>alpa.sthankiya@mitsubishicorp.com</email>
+			<email>alex.g.d-adam@mitsubishicorp.com</email>
+        </client>
+		
+		<client name="MCT" lname="Mitsubishi Corporation Tokyo ">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>kazuki.a.misawa@mitsubishicorprtm.com</email>
+			<email>anderson.nels@mitsubishicorprtm.com</email>
+        </client>
+		
+		
+		<client name="MRI" lname="MRI Trading AG">
+			<project>Aquarius</project>
+			<project>Aquarius Development</project>
+			<project>Aquarius Archive</project>
+            <priority>0</priority>
+            <email>keith.lomax@mri-group.com</email>
+			<email>simon.moulder@mri-group.com</email>
+			<email>Florian.Hehlen@mri-group.com</email>
+        </client>
+		
+		<client name="Newedge" lname="Newedge">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>Scott.Taylor@newedge.com</email>
+			<email>Phillippa.Bickles@newedge.com</email>
+        </client>
+		
+		<client name="Noble" lname="Noble Europe">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>YassinMoume@thisisnoble.com</email>
+			<email>TanguyBretagne@thisisnoble.com</email>
+        </client>
+		
+		<client name="Novelis" lname="Novelis">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>brian.barile@novelis.com</email>
+			<email>Stan.Shtramel@novelis.com</email>
+        </client>
+		
+		<client name="Riceland" lname="Riceland Foods ">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>gdaniels@riceland.com</email>
+			<email>fhogue@riceland.com</email>
+			<email>dbrown@riceland.com</email>
+        </client>
+		
+		<client name="Rio Tinto Alcan" lname="Rio Tinto Alcan">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>remi.tremblay@riotinto.com</email>
+			<email>Johanne.Gauthier@riotinto.com</email>
+			<email>pierre-charles.forest@riotinto.com</email>
+        </client>
+		
+		<client name="Standard Bank" lname="Standard Bank">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>ajay.ujoodia@standardbank.com</email>
+			<email>Stephen.Parry@standardbank.com</email>
+			<email>Ram.Kumar@standardbank.com</email>
+        </client>
+		
+		<client name="Toyota" lname="Toyota Tsusho Metals">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>sranatunga@ttmetals.com</email>
+			<email>tfujihara@ttmetals.com</email>
+			<email>DHENNIGAN@TTMETALS.COM</email>
+        </client>
+		
+		<client name="Trafigura" lname="Trafigura">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>Adam.Rawcliffe@trafigura.com</email>
+			<email>celina.costa@trafigura.com</email>
+			<email>jonathan.clark@trafigura.com</email>
+        </client>
+		
+		<client name="Transamine" lname="Transamine">
+			<project>Trinity</project>
+			<project>Trinity Development</project>
+			<project>Trinity Archive</project>
+            <priority>0</priority>
+            <email>p.ferrero@transamine-trading.com</email>
+			<email>a.insa@transamine-trading.com</email>
+			<email>a.carassus@transamine-trading.com</email>
+        </client>
+		
+		<client name="Marex Spectron" lname="Marex Spectron">
+			<project>Opval</project>
+			<project>Opval Archive</project>
+			<project>OPVAL Development</project>
+            <priority>0</priority>
+			<email>Dominic.Finch@bradyplc.com</email>
+        </client>
+		
+	</client_config>
+	
+	<template_config>
+		<template_str placeHolder="%name%" content="ShortName" />
+		<template_str placeHolder="%day%" content="CurrentDay" />
+		<template_str placeHolder="%month%" content="CurrentMonth" />
+		<template_str placeHolder="%year%" content="CurrentYear" />
+		<template_str placeHolder="%client_name%" content="FullName" />
+		<template_str placeHolder="%month-1%" content="PreviousMonth" />
+		<template_str placeHolder="%month-1_full%" content="PreviousMonthFull" />
+		<template_str placeHolder="%sender_name%" content="Brady Metal Client Services" />
+	</template_config>
+	
+	<jira_config host="https://support.bradyplc.com" />
+	<file_config outputDir="E:\Support\JIRA Reports\%month-1%\" outputName="%name% %month-1% EOM ISSUE REPORT" outputExt="pdf" />
+	<email_config serverName="camvs-re8-2" serverPort="25" senderEmail="no.reply@bradyplc.com" emailSubject="%client_name% %month-1% EOM JIRA ISSUE REPORT" emailTemplate="email_template.txt" emailType="plain" />
+	
+</jira_report_config>
