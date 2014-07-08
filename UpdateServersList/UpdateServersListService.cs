@@ -397,7 +397,7 @@ namespace UpdateServersList
                 OracleDataReader rdr2 = cmd.ExecuteReader(CommandBehavior.SingleRow);
                 if (rdr2.Read())
                 {
-                    oracleversion = rdr2.GetString(rdr.GetOrdinal("BUILD")) + "." + rdr.GetString(rdr.GetOrdinal("SVCPACK"));
+                    oracleversion = rdr2.GetString(rdr2.GetOrdinal("VERSION"));
                 }
                 else
                 {
