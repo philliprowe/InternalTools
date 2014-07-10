@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
@@ -51,8 +52,13 @@ namespace UpdateServersList
                 _demoservers = ConfigurationManager.AppSettings["DemoServer"].Split(new string[1] { ";" }, StringSplitOptions.RemoveEmptyEntries);
                 _developmentservers = ConfigurationManager.AppSettings["DevelopmentServer"].Split(new string[1] { ";" }, StringSplitOptions.RemoveEmptyEntries);
                 _clientservers = ConfigurationManager.AppSettings["ClientServer"].Split(new string[1] { ";" }, StringSplitOptions.RemoveEmptyEntries);
-                
-                _databases = ConfigurationManager.AppSettings["Databases"].Split(new string[1] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+                string[] allDB = ReadTNSNames();
+                string[] excludeDB = ConfigurationManager.AppSettings["HideDatabases"].Split(new string[1] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i <= excludeDB.GetUpperBound(0); i++) excludeDB[i] = excludeDB[i].Replace("\r\n", string.Empty).Trim().ToUpper();
+
+                _databases = allDB.Where<string>(db => !excludeDB.Contains(db)).ToArray<string>();
+
+                //_databases = ConfigurationManager.AppSettings["Databases"].Split(new string[1] { ";" }, StringSplitOptions.RemoveEmptyEntries);
                 _ServerTypeTableDemo = ConfigurationManager.AppSettings["ServerTypeDemo"];
                 _ServerTypeTableDevelopment = ConfigurationManager.AppSettings["ServerTypeDevelopment"];
                 _ServerTypeTableClient = ConfigurationManager.AppSettings["ServerTypeClient"];
@@ -84,6 +90,26 @@ namespace UpdateServersList
             }
         }
 
+        private string[] ReadTNSNames()
+        {
+            string[] databases = new string[1];
+
+            DbProviderFactory factory = DbProviderFactories.GetFactory("Oracle.DataAccess.Client");
+            
+            int i = 1;
+            if (factory.CanCreateDataSourceEnumerator)
+            {
+                DbDataSourceEnumerator dsenum = factory.CreateDataSourceEnumerator();
+                DataTable dt = dsenum.GetDataSources();
+                foreach (DataRow row in dt.Rows)
+                {
+                    Array.Resize<string>(ref databases, i);
+                    databases[i-1] = row[0].ToString().ToUpper();
+                    i += 1;
+                }
+            }
+            return databases;
+        }
       
         private void ReadRemoteRegistryKey(string remoteName)
         {
@@ -397,7 +423,7 @@ namespace UpdateServersList
                 OracleDataReader rdr2 = cmd.ExecuteReader(CommandBehavior.SingleRow);
                 if (rdr2.Read())
                 {
-                    oracleversion = rdr2.GetString(rdr.GetOrdinal("BUILD")) + "." + rdr.GetString(rdr.GetOrdinal("SVCPACK"));
+                    oracleversion = rdr2.GetString(rdr2.GetOrdinal("VERSION"));
                 }
                 else
                 {
