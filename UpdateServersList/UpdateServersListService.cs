@@ -293,7 +293,7 @@ namespace UpdateServersList
                 string databaseOutput = string.Empty;
                 string output = string.Empty;
                 string html;
-                string lastUpdated = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss");
+                string lastUpdated = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
                 const string fileHeader =
                     "<html xmlns=\"http://www.w3.org/TR/REC-html40\">\r\n" +
                     "<head>\r\n" +
