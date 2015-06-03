@@ -156,7 +156,7 @@ namespace JiraReport
                     throw new KeyNotFoundException("Unable to find host variable. Please make sure this is specified in the config file");
                 
                 url += string.Format("{0}/{1}?", url_template["host"], url_template["Extension"]);
-                url += string.Format("{0}&{1}={2}&", url_template["SProject"], url_template["Customer"], client.name["full_name"]);
+                url += string.Format("{0}&{1}={2}&", url_template["SProject"], url_template["Customer"], Uri.EscapeDataString(client.name["full_name"]));
                 url += string.Format("{0}&{1}={2}&Next=Next&", url_template["ReportKey"], url_template["StartDate"], s_date.ToString("d/MMM/yy"));
 
                 for (int i = 0; i < client.priority.Count; i++) {
@@ -164,16 +164,12 @@ namespace JiraReport
                 }
 
                 for (int i = 0; i < client.projects.Count; i++) {
-                    url += string.Format("{0}={1}&", url_template["Project"], client.projects[i]);
+                    url += string.Format("{0}={1}&", url_template["Project"], Uri.EscapeDataString(client.projects[i]));
                 }
                 // url += string.Format("{0}&{1}={2}&", url_template["SProject"], url_template["Customer"], client.name["full_name"].Replace(" ", "+"));
                 url += string.Format("{0}={1}", url_template["EndDate"], e_date.ToString("d/MMM/yy"));
-                string url_t = Uri.EscapeUriString(url);
 
-                // MessageBox.Show(url_t);
-                // string url_t = url.Replace(" ", "+");
-                Console.WriteLine(url_t);
-                return url_t;
+                return url;
             }
             catch (Exception ex) {
                 string err_out = "Exception: " + ex.Message;
