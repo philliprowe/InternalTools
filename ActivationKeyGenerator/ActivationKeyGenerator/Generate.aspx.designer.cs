@@ -49,6 +49,15 @@ namespace ActivationKeyGenerator {
         protected global::System.Web.UI.WebControls.Table Table2;
         
         /// <summary>
+        /// ClientID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell ClientID;
+        
+        /// <summary>
         /// ClientDDL control.
         /// </summary>
         /// <remarks>
@@ -65,6 +74,42 @@ namespace ActivationKeyGenerator {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label ClientLabel;
+        
+        /// <summary>
+        /// EntityRow control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow EntityRow;
+        
+        /// <summary>
+        /// EntityLabel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label EntityLabel1;
+        
+        /// <summary>
+        /// EntityDDL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList EntityDDL;
+        
+        /// <summary>
+        /// EntityLabel2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label EntityLabel2;
         
         /// <summary>
         /// VersionTB control.
@@ -121,40 +166,40 @@ namespace ActivationKeyGenerator {
         protected global::System.Web.UI.WebControls.Label ActivationTypeLabel;
         
         /// <summary>
-        /// LimitTB control.
+        /// InteractiveTB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox LimitTB;
+        protected global::System.Web.UI.WebControls.TextBox InteractiveTB;
         
         /// <summary>
-        /// LimitLabel control.
+        /// InteractiveLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LimitLabel;
+        protected global::System.Web.UI.WebControls.Label InteractiveLabel;
         
         /// <summary>
-        /// ExtendedLimitTB control.
+        /// ServiceTB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox ExtendedLimitTB;
+        protected global::System.Web.UI.WebControls.TextBox ServiceTB;
         
         /// <summary>
-        /// ExtendedLimitLabel control.
+        /// ServiceLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label ExtendedLimitLabel;
+        protected global::System.Web.UI.WebControls.Label ServiceLabel;
         
         /// <summary>
         /// ExpiryMonthTB control.
@@ -317,6 +362,15 @@ namespace ActivationKeyGenerator {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Table Table4;
+        
+        /// <summary>
+        /// sftpRow control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow sftpRow;
         
         /// <summary>
         /// sftpCancel control.
