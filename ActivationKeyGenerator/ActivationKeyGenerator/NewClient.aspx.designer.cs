@@ -67,13 +67,13 @@ namespace ActivationKeyGenerator {
         protected global::System.Web.UI.WebControls.TextBox NewClientTB;
         
         /// <summary>
-        /// NewClientComment control.
+        /// NewClientLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label NewClientComment;
+        protected global::System.Web.UI.WebControls.Label NewClientLabel;
         
         /// <summary>
         /// EntityBL control.
@@ -85,13 +85,13 @@ namespace ActivationKeyGenerator {
         protected global::System.Web.UI.WebControls.RadioButtonList EntityBL;
         
         /// <summary>
-        /// EntitiesComment control.
+        /// EntitiesLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label EntitiesComment;
+        protected global::System.Web.UI.WebControls.Label EntitiesLabel;
         
         /// <summary>
         /// NewEntityID control.
@@ -112,13 +112,13 @@ namespace ActivationKeyGenerator {
         protected global::System.Web.UI.WebControls.TextBox NewEntityNameTB;
         
         /// <summary>
-        /// NewEntityNameComment control.
+        /// NewEntityNameLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label NewEntityNameComment;
+        protected global::System.Web.UI.WebControls.Label NewEntityNameLabel;
         
         /// <summary>
         /// NewVersionTB control.
@@ -130,13 +130,13 @@ namespace ActivationKeyGenerator {
         protected global::System.Web.UI.WebControls.TextBox NewVersionTB;
         
         /// <summary>
-        /// NewVersionComment control.
+        /// NewVersionLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label NewVersionComment;
+        protected global::System.Web.UI.WebControls.Label NewVersionLabel;
         
         /// <summary>
         /// NewLastSPTB control.
@@ -148,13 +148,13 @@ namespace ActivationKeyGenerator {
         protected global::System.Web.UI.WebControls.TextBox NewLastSPTB;
         
         /// <summary>
-        /// NewLastSPComment control.
+        /// NewLastSPLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label NewLastSPComment;
+        protected global::System.Web.UI.WebControls.Label NewLastSPLabel;
         
         /// <summary>
         /// NewEmailToTB control.
@@ -166,22 +166,22 @@ namespace ActivationKeyGenerator {
         protected global::System.Web.UI.WebControls.TextBox NewEmailToTB;
         
         /// <summary>
-        /// NewSystemCode control.
+        /// NewSystemCodeTB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label NewSystemCode;
+        protected global::System.Web.UI.WebControls.TextBox NewSystemCodeTB;
         
         /// <summary>
-        /// NewSystemCodeComment control.
+        /// NewSystemCodeLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label NewSystemCodeComment;
+        protected global::System.Web.UI.WebControls.Label NewSystemCodeLabel;
         
         /// <summary>
         /// NewActivationTypeBL control.
@@ -193,13 +193,13 @@ namespace ActivationKeyGenerator {
         protected global::System.Web.UI.WebControls.RadioButtonList NewActivationTypeBL;
         
         /// <summary>
-        /// NewActivationTypeComment control.
+        /// NewActivationTypeLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label NewActivationTypeComment;
+        protected global::System.Web.UI.WebControls.Label NewActivationTypeLabel;
         
         /// <summary>
         /// NewInteractiveLicensesTB control.
@@ -211,13 +211,13 @@ namespace ActivationKeyGenerator {
         protected global::System.Web.UI.WebControls.TextBox NewInteractiveLicensesTB;
         
         /// <summary>
-        /// NewInteractiveLicensesComment control.
+        /// NewInteractiveLicensesLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label NewInteractiveLicensesComment;
+        protected global::System.Web.UI.WebControls.Label NewInteractiveLicensesLabel;
         
         /// <summary>
         /// NewServiceLicensesTB control.
@@ -229,13 +229,13 @@ namespace ActivationKeyGenerator {
         protected global::System.Web.UI.WebControls.TextBox NewServiceLicensesTB;
         
         /// <summary>
-        /// NewServiceLicensesComment control.
+        /// NewServiceLicensesLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label NewServiceLicensesComment;
+        protected global::System.Web.UI.WebControls.Label NewServiceLicensesLabel;
         
         /// <summary>
         /// NewExpiryMonthTB control.
@@ -247,13 +247,13 @@ namespace ActivationKeyGenerator {
         protected global::System.Web.UI.WebControls.TextBox NewExpiryMonthTB;
         
         /// <summary>
-        /// NewExpiryMonthComment control.
+        /// NewExpiryMonthLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label NewExpiryMonthComment;
+        protected global::System.Web.UI.WebControls.Label NewExpiryMonthLabel;
         
         /// <summary>
         /// NewExpiryYearTB control.
@@ -265,13 +265,13 @@ namespace ActivationKeyGenerator {
         protected global::System.Web.UI.WebControls.TextBox NewExpiryYearTB;
         
         /// <summary>
-        /// NewExpiryYearComment control.
+        /// NewExpiryYearLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label NewExpiryYearComment;
+        protected global::System.Web.UI.WebControls.Label NewExpiryYearLabel;
         
         /// <summary>
         /// MEBLRow control.

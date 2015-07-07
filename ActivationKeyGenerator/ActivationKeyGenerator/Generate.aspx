@@ -27,12 +27,12 @@
                 <asp:TableRow >
                     <asp:TableCell ID="ClientID" Text="Client" Visible="true"></asp:TableCell>
                     <asp:TableCell ColumnSpan="2"><asp:DropDownList ID="ClientDDL" runat="server" Style="cursor:pointer" Height="20px"  AutoPostBack="True" OnSelectedIndexChanged="ClientDDL_SelectedIndexChanged" TabIndex="1" Width="200" ></asp:DropDownList> </asp:TableCell>
-                    <asp:TableCell ><asp:Label ID="ClientComment" runat="server" ForeColor="Red" Visible="False"></asp:Label></asp:TableCell>
+                    <asp:TableCell ><asp:Label ID="ClientLabel" runat="server" ForeColor="Red" Visible="False"></asp:Label></asp:TableCell>
                 </asp:TableRow>
                 <asp:TableRow ID="EntityRow" Visible="false">
-                    <asp:TableCell> <asp:Label ID="EntityComment1" runat="server" Text="Entity"></asp:Label></asp:TableCell>
+                    <asp:TableCell> <asp:Label ID="EntityLabel1" runat="server" Text="Entity"></asp:Label></asp:TableCell>
                     <asp:TableCell ColumnSpan="2"><asp:DropDownList ID="EntityDDL" runat="server" Style="cursor:pointer" Height="20px"  AutoPostBack="True" OnSelectedIndexChanged="EntityDDL_SelectedIndexChanged"  TabIndex="1" Width="200" ></asp:DropDownList> </asp:TableCell>
-                    <asp:TableCell ><asp:Label ID="EntityComment2" runat="server" ForeColor="Red" Visible="False"></asp:Label></asp:TableCell>
+                    <asp:TableCell ><asp:Label ID="EntityLabel2" runat="server" ForeColor="Red" Visible="False"></asp:Label></asp:TableCell>
                 </asp:TableRow>
                 <asp:TableRow>
                     <asp:TableCell Text="Version"></asp:TableCell>
@@ -61,29 +61,29 @@
                         <asp:ListItem>Named users</asp:ListItem>
                         </asp:RadioButtonList>
                     </asp:TableCell>
-                    <asp:TableCell><asp:Label ID="ActivationTypeComment" runat ="server" ForeColor="Red" Visible="false"></asp:Label> </asp:TableCell>
+                    <asp:TableCell><asp:Label ID="ActivationTypeLabel" runat ="server" ForeColor="Red" Visible="false"></asp:Label> </asp:TableCell>
                 </asp:TableRow>
                 <asp:TableRow>
                     <asp:TableCell Text="Interactive Licenses"></asp:TableCell>
                     <asp:TableCell ColumnSpan="2"><asp:TextBox ID="InteractiveTB" runat="server" Width="40px" TabIndex="7"></asp:TextBox></asp:TableCell>
-                    <asp:TableCell><asp:Label ID="InteractiveComment" runat="server" ForeColor="Red" Visible="False"></asp:Label></asp:TableCell>
+                    <asp:TableCell><asp:Label ID="InteractiveLabel" runat="server" ForeColor="Red" Visible="False"></asp:Label></asp:TableCell>
                 </asp:TableRow>
                 <asp:TableRow>
                     <asp:TableCell Text="Service Licenses"></asp:TableCell>
                     <asp:TableCell ColumnSpan="2"><asp:TextBox ID="ServiceTB" runat="server" Width="40px" TabIndex="8"></asp:TextBox></asp:TableCell>
-                    <asp:TableCell><asp:Label ID="ServiceComment" runat="server" ForeColor="Red" Visible="False"></asp:Label></asp:TableCell>
+                    <asp:TableCell><asp:Label ID="ServiceLabel" runat="server" ForeColor="Red" Visible="False"></asp:Label></asp:TableCell>
                     </asp:TableRow>
                 <asp:TableRow>
                     <asp:TableCell Text ="Expiry"></asp:TableCell>
                     <asp:TableCell Text ="Month" Width="30" HorizontalAlign="Right"></asp:TableCell>
                     <asp:TableCell HorizontalAlign="Left"><asp:TextBox ID="ExpiryMonthTB" runat="server" Width="40px" TabIndex="9" ToolTip="Month of expiry.  Must be of the form MM."></asp:TextBox></asp:TableCell>
-                    <asp:TableCell><asp:Label ID="ExpiryMonthComment" runat="server" ForeColor="Red" Visible="False"></asp:Label></asp:TableCell>
+                    <asp:TableCell><asp:Label ID="ExpiryMonthLabel" runat="server" ForeColor="Red" Visible="False"></asp:Label></asp:TableCell>
                 </asp:TableRow>
                 <asp:TableRow>
                     <asp:TableCell></asp:TableCell>
                     <asp:TableCell Text ="Year" HorizontalAlign="Right"></asp:TableCell>
                     <asp:TableCell HorizontalAlign ="Left"><asp:TextBox ID="ExpiryYearTB" runat="server" Width="40px" TabIndex="10" ToolTip="Year of expiry.  Must be of the form YYYY"></asp:TextBox></asp:TableCell>
-                    <asp:TableCell><asp:Label ID="ExpiryYearComment" runat="server" ForeColor="Red" Visible="False"></asp:Label></asp:TableCell>
+                    <asp:TableCell><asp:Label ID="ExpiryYearLabel" runat="server" ForeColor="Red" Visible="False"></asp:Label></asp:TableCell>
                 </asp:TableRow>
                 <asp:TableRow>
                     <asp:TableCell><asp:Button ID="AmendBttn" runat="server" Style="cursor:pointer" Text="Amend Client Details" Width="141px" OnClick="AmendBttn_Click" TabIndex="11" ToolTip="Save this Client's details." /></asp:TableCell>
@@ -92,15 +92,15 @@
                 <asp:TableRow>
                     <asp:TableCell Text ="Trinity Version"></asp:TableCell>
                     <asp:TableCell ColumnSpan="2"><asp:TextBox ID="ActivTrinityVersionTB" runat="server" Width="40px" TabIndex="12" ToolTip="The Trinity Version you want to create an Activation Key for."></asp:TextBox></asp:TableCell>
-                    <asp:TableCell> <asp:Label ID="VersionComment" runat="server" ForeColor="Red" Visible="False"></asp:Label></asp:TableCell>
+                    <asp:TableCell> <asp:Label ID="VersionLabel" runat="server" ForeColor="Red" Visible="False"></asp:Label></asp:TableCell>
                 </asp:TableRow>
                 <asp:TableRow>
                     <asp:TableCell Text="Service Pack"></asp:TableCell>
                     <asp:TableCell ColumnSpan="2"><asp:TextBox ID="ActivServicePackTB" runat="server" Style="cursor:pointer" Width="40px" TabIndex="13" ToolTip="The Service Pack you wish to create an Activation Key for. Do not include patch number - each Activation Key is valid for a Service Pack."></asp:TextBox></asp:TableCell>
-                    <asp:TableCell><asp:Label ID="ServicePackComment" runat="server" ForeColor="Red" Visible="False"></asp:Label></asp:TableCell>
+                    <asp:TableCell><asp:Label ID="ServicePackLabel" runat="server" ForeColor="Red" Visible="False"></asp:Label></asp:TableCell>
                 </asp:TableRow>
                 <asp:TableRow>
-                    <asp:TableCell ColumnSpan="3"><asp:Label ID="MulipleSystemsComment" runat="server" ForeColor="Red" Text="Please select the trading system you wish to activate:" Visible="False" TabIndex="14" ToolTip=""></asp:Label></asp:TableCell>
+                    <asp:TableCell ColumnSpan="3"><asp:Label ID="MulipleSystemsLabel" runat="server" ForeColor="Red" Text="Please select the trading system you wish to activate:" Visible="False" TabIndex="14" ToolTip=""></asp:Label></asp:TableCell>
                     <asp:TableCell><asp:DropDownList ID="MultipleSystemsDDL" runat="server" Style="cursor:pointer" ForeColor="Red" Visible="False"></asp:DropDownList></asp:TableCell> 
                 </asp:TableRow>
                 <asp:TableRow>
@@ -115,7 +115,7 @@
         <asp:Table ID="Table3" runat="server" CssClass="auto-style1" CellPadding="5" >
             <asp:TableRow>
                 <asp:TableCell>
-                    <asp:Label ID="ActivationComment" runat="server" ForeColor="Red" Visible="False"></asp:Label>
+                    <asp:Label ID="ActivationLabel" runat="server" ForeColor="Red" Visible="False"></asp:Label>
                 </asp:TableCell>
                 </asp:TableRow>
         </asp:Table>

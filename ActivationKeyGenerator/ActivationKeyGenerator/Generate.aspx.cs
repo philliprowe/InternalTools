@@ -23,8 +23,6 @@ namespace ActivationKeyGenerator
             AmendBttn.Attributes.Add("onclick", "return confirm('Warning: This will amend this Client\\'s details.\\r\\nAmend this Client?');");
             PushsftpBttn.Attributes.Add("onclick", "return confirm('Warning: This will push the Client\\'s Activation Key to their SFTP. \\r\\n Push Activation Key to SFTP?');");
 
-            HideAllComments();
-
 
             if (ClientDDL.Items.Count == 0) //The first time the form is loaded, when the client list is unpopulated
             {
@@ -52,8 +50,8 @@ namespace ActivationKeyGenerator
                 {
                     //Normally when the Client list has been moved
                     Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Could not get Client List.');", true);
-                    ClientComment.Text = ex.Message;
-                    ClientComment.Visible = true;
+                    ClientLabel.Text = ex.Message;
+                    ClientLabel.Visible = true;
                 }
             }
         }       
@@ -76,7 +74,7 @@ namespace ActivationKeyGenerator
         protected void ClientDDL_SelectedIndexChanged(object sender, EventArgs e)
         {
             ClearAllActivationStuff(); // Hide any previous activation key entries
-            HideAllComments(); // Reset the page's Comments      
+            HideAllLabels(); // Reset the page's labels      
             EntityDDL.Items.Clear();
             EntityRow.Visible = false;
             SystemCodeTB.ForeColor = Color.Black;
@@ -99,6 +97,8 @@ namespace ActivationKeyGenerator
                         entityNumber = Convert.ToInt32(sr.ReadLine().Substring(14));
                         if (entityNumber != 1)
                         {   
+                            sr.Close();
+                            sr.Dispose();
                             ClearAllTBoxes();
                             MultipleEntities(entityNumber);
                             return;
@@ -121,6 +121,8 @@ namespace ActivationKeyGenerator
                             ExpiryMonthTB.Text = sr.ReadLine();
                             ExpiryYearTB.Text = sr.ReadLine();
                             ActivTrinityVersionTB.Text = VersionTB.Text;
+                            sr.Close();
+                            sr.Dispose();
                         }
                     checkForMultipleSystems();
                                   
@@ -130,8 +132,8 @@ namespace ActivationKeyGenerator
                     // Usually when the client file has been moved or deleted outside the program 
                     ClearAllTBoxes();
                     Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Could not get Client\\'s details.');", true);
-                    ClientComment.Text = ex.Message;
-                    ClientComment.Visible = true;
+                    ClientLabel.Text = ex.Message;
+                    ClientLabel.Visible = true;
                 }
             }
             else
@@ -141,7 +143,7 @@ namespace ActivationKeyGenerator
                 AmendBttn.Enabled = false;
                 
                 ClearAllTBoxes();
-                HideAllComments();
+                HideAllLabels();
             }
         }
         protected void EntityDDL_SelectedIndexChanged(object sender, EventArgs e)
@@ -168,25 +170,25 @@ namespace ActivationKeyGenerator
 
                         while (!(sr.ReadLine() == EntityDDL.SelectedValue))
                         { }
-                        VersionTB.Text = sr.ReadLine();
-                        EmailToTB.Text = sr.ReadLine();
-                        LastSPTB.Text = sr.ReadLine();
-                        SystemCodeTB.Text = sr.ReadLine();
-                        string activationType = sr.ReadLine();
-                        if (activationType == "Concurrent")
-                        {
-                            ActivationTypeBL.SelectedValue = "Concurrent users";
-                        } 
-                        else if (activationType == "Named")
-                        {
-                            ActivationTypeBL.SelectedValue = "Named users";
+                            VersionTB.Text = sr.ReadLine();
+                            EmailToTB.Text = sr.ReadLine();
+                            LastSPTB.Text = sr.ReadLine();
+                            SystemCodeTB.Text = sr.ReadLine();
+                            string activationType = sr.ReadLine();
+                            if (activationType == "Concurrent")
+                            {
+                                ActivationTypeBL.SelectedValue = "Concurrent users";
+                            } 
+                            else if (activationType == "Named")
+                            {
+                                ActivationTypeBL.SelectedValue = "Named users";
+                            }
+                            InteractiveTB.Text = sr.ReadLine();
+                            ServiceTB.Text = sr.ReadLine();
+                            ExpiryMonthTB.Text = sr.ReadLine();
+                            ExpiryYearTB.Text = sr.ReadLine();
+                            ActivTrinityVersionTB.Text = VersionTB.Text;
                         }
-                        InteractiveTB.Text = sr.ReadLine();
-                        ServiceTB.Text = sr.ReadLine();
-                        ExpiryMonthTB.Text = sr.ReadLine();
-                        ExpiryYearTB.Text = sr.ReadLine();
-                        ActivTrinityVersionTB.Text = VersionTB.Text;
-                    }
                     
                 }
                 catch(Exception)
@@ -196,7 +198,7 @@ namespace ActivationKeyGenerator
                     Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Could not get Entity\\'s details.');", true); 
                 }
                 checkForMultipleSystems();
-                HideAllComments(); // Reset the page's Comments
+                HideAllLabels(); // Reset the page's labels
             }
             else
             {
@@ -205,7 +207,7 @@ namespace ActivationKeyGenerator
                 AmendBttn.Enabled = false;
                 
                 ClearAllTBoxes();
-                HideAllComments();
+                HideAllLabels();
             }
         }
         protected void ClearAllActivationStuff()
@@ -216,20 +218,20 @@ namespace ActivationKeyGenerator
             sftpCancel.Visible = false;
             sftpContinue.Visible = false;
             sftpIT.Visible = false;
-            ActivationComment.Visible = false;
+            ActivationLabel.Visible = false;
         }
-        protected void HideAllComments()
+        protected void HideAllLabels()
         {
-            //Hides all the Comments
-            InteractiveComment.Visible = false;
-            ServiceComment.Visible = false;
-            ExpiryMonthComment.Visible = false;
-            ExpiryYearComment.Visible = false;
-            VersionComment.Visible = false;
-            ServicePackComment.Visible = false;
-            ClientComment.Visible = false;
-            ActivationComment.Visible = false;
-            ActivationTypeComment.Visible = false;
+            //Hides all the labels
+            InteractiveLabel.Visible = false;
+            ServiceLabel.Visible = false;
+            ExpiryMonthLabel.Visible = false;
+            ExpiryYearLabel.Visible = false;
+            VersionLabel.Visible = false;
+            ServicePackLabel.Visible = false;
+            ClientLabel.Visible = false;
+            ActivationLabel.Visible = false;
+            ActivationTypeLabel.Visible = false;
         }        
         protected void ClearAllTBoxes()
         {
@@ -250,7 +252,7 @@ namespace ActivationKeyGenerator
         }
         protected void ActivationKeyBttn_Click(object sender, EventArgs e)
         {
-            HideAllComments();
+            HideAllLabels();
             string systemCode;
             if (SystemCodeTB.Text == ("System Code is Required.")) SystemCodeTB.Text = "";
             // If the multiple systems drop down list is visible it means there are several system codes.
@@ -265,7 +267,7 @@ namespace ActivationKeyGenerator
                 systemCode = SystemCodeTB.Text.Trim();
             }
 
-            ActivationKeyTB.Text = GenerateKey(ActivationTypeBL.SelectedIndex, InteractiveTB.Text.Trim(), ServiceTB.Text.Trim(), ExpiryMonthTB.Text.Trim(), ExpiryYearTB.Text.Trim(), ActivTrinityVersionTB.Text.Trim() + "." + ActivServicePackTB.Text.Trim(), systemCode.Trim());
+            ActivationKeyTB.Text = GenerateKey(ActivationTypeBL.SelectedIndex, InteractiveTB.Text.Trim(), ServiceTB.Text.Trim(), ExpiryMonthTB.Text.Trim(), ExpiryYearTB.Text.Trim(), ActivTrinityVersionTB.Text.Trim() + "." + ActivServicePackTB.Text.Trim(), systemCode.Trim(),EntityDDL.SelectedValue);
            // Display the text box containing the activation key
             if (!(ActivationKeyTB.Text == ""))
            {
@@ -277,7 +279,7 @@ namespace ActivationKeyGenerator
                ClearAllActivationStuff();
            }
         }
-        protected string GenerateKey(int activationType, string interactiveLicenses, string serviceLicenses, string expiryMonth, string expiryYear, string version, string clientCode)
+        protected string GenerateKey(int activationType, string interactiveLicenses, string serviceLicenses, string expiryMonth, string expiryYear, string version, string clientCode, string entity)
         {
             if (GenerateKeyValidation(activationType, interactiveLicenses, serviceLicenses, expiryMonth, expiryYear, version, clientCode))
             {
@@ -287,7 +289,7 @@ namespace ActivationKeyGenerator
                 //The day is generated by the last day of the month
                 DateTime endOfMonth = new DateTime(Convert.ToInt32(expiryYear), Convert.ToInt32(expiryMonth), DateTime.DaysInMonth(Convert.ToInt32(expiryYear), Convert.ToInt32(expiryMonth)));
                 //the string part of the activation code
-                strKey = (evaluation ? "EVALUATION" : "") + "," + (activationType == 0 ? "CONCURRENT" : "TOTAL") + "," + interactiveLicenses + "," + serviceLicenses + "," + endOfMonth.ToString("dd-MMM-yyyy") + "," + version + "," + clientCode;
+                strKey = (evaluation ? "EVALUATION" : "") + "," + (activationType == 0 ? "CONCURRENT" : "TOTAL") + "," + interactiveLicenses + "," + serviceLicenses + "," + endOfMonth.ToString("dd-MMM-yyyy") + "," + version + "," + clientCode + "," + entity;
                 return strKey + "," + Strings.Mid(StrCheckSum(StrCheckSum(strKey)), 2);
             }
             else
@@ -298,7 +300,7 @@ namespace ActivationKeyGenerator
         bool GenerateKeyValidation(int activationType, string interactiveLicenses, string serviceLicenses, string expiryMonth, string expiryYear, string version, string clientCode)
         {
             // Validate entries
-            // If there is an error, returns false and displays the relevant Comment displaying the validation error
+            // If there is an error, returns false and displays the relevant label displaying the validation error
             bool valid = true;
             double Num;
             bool isNum;
@@ -308,8 +310,8 @@ namespace ActivationKeyGenerator
             if (activationType.Equals(-1))
             {
                 valid = false;
-                ActivationTypeComment.Text = "Select an  Activation type";
-                ActivationTypeComment.Visible = true;
+                ActivationTypeLabel.Text = "Select an  Activation type";
+                ActivationTypeLabel.Visible = true;
             }
 
             // InteractiveLicenses
@@ -317,14 +319,14 @@ namespace ActivationKeyGenerator
             if (!isNum)
             {
                 valid = false;
-                InteractiveComment.Text = "Number of Interactive Licenses must be a number.";
-                InteractiveComment.Visible = true;
+                InteractiveLabel.Text = "Number of Interactive Licenses must be a number.";
+                InteractiveLabel.Visible = true;
             }
             if (interactiveLicenses == "")
             {
                 valid = false;
-                InteractiveComment.Text = "Number of Interactive Licenses is required.";
-                InteractiveComment.Visible = true;
+                InteractiveLabel.Text = "Number of Interactive Licenses is required.";
+                InteractiveLabel.Visible = true;
             }
 
             // ServiceLicenses
@@ -332,14 +334,14 @@ namespace ActivationKeyGenerator
             if (!isNum)
             {
                 valid = false;
-                ServiceComment.Text = "Number of Service Licenses must be a number.";
-                ServiceComment.Visible = true;
+                ServiceLabel.Text = "Number of Service Licenses must be a number.";
+                ServiceLabel.Visible = true;
             }
             if (serviceLicenses == "")
             {
                 valid = false;
-                ServiceComment.Text = "Number of Service Licenses is required.";
-                ServiceComment.Visible = true;
+                ServiceLabel.Text = "Number of Service Licenses is required.";
+                ServiceLabel.Visible = true;
             }
 
             // Expiry Month
@@ -348,24 +350,24 @@ namespace ActivationKeyGenerator
             if (!isNum || !isRightDigits)
             {
                 valid = false;
-                ExpiryMonthComment.Text = "Expiry Month must be a number and of the form MM.";
-                ExpiryMonthComment.Visible = true;
+                ExpiryMonthLabel.Text = "Expiry Month must be a number and of the form MM.";
+                ExpiryMonthLabel.Visible = true;
             }
             else
             {
                 if (Num > 12 | Num < 1)
                 {
                     valid = false;
-                    ExpiryMonthComment.Text = "Expiry Month must be between 01 and 12.";
-                    ExpiryMonthComment.Visible = true;
+                    ExpiryMonthLabel.Text = "Expiry Month must be between 01 and 12.";
+                    ExpiryMonthLabel.Visible = true;
                 }
             }
 
             if (expiryMonth == "")
             {
                 valid = false;
-                ExpiryMonthComment.Text = "Expiry Month is required.";
-                ExpiryMonthComment.Visible = true;
+                ExpiryMonthLabel.Text = "Expiry Month is required.";
+                ExpiryMonthLabel.Visible = true;
             }
             // Expiry Year
             isNum = double.TryParse(expiryYear, out Num);
@@ -373,14 +375,14 @@ namespace ActivationKeyGenerator
             if (!isNum || !isRightDigits)
             {
                 valid = false;
-                ExpiryYearComment.Text = "Expiry Year must be a number and of the form YYYY.";
-                ExpiryYearComment.Visible = true;
+                ExpiryYearLabel.Text = "Expiry Year must be a number and of the form YYYY.";
+                ExpiryYearLabel.Visible = true;
             }
             if (expiryYear == "")
             {
                 valid = false;
-                ExpiryYearComment.Text = "Expiry Year is required.";
-                ExpiryYearComment.Visible = true;
+                ExpiryYearLabel.Text = "Expiry Year is required.";
+                ExpiryYearLabel.Visible = true;
             }
 
             // Version
@@ -388,14 +390,14 @@ namespace ActivationKeyGenerator
             if (!isNum || Num < 2010)
             {
                 valid = false;
-                VersionComment.Text = "Trinity Version is not correct.";
-                VersionComment.Visible = true;
+                VersionLabel.Text = "Trinity Version is not correct.";
+                VersionLabel.Visible = true;
             }
             if (ActivTrinityVersionTB.Text == "")
             {
                 valid = false;
-                VersionComment.Text = "Trinity Version is required.";
-                VersionComment.Visible = true;
+                VersionLabel.Text = "Trinity Version is required.";
+                VersionLabel.Visible = true;
             }
 
             // Service pack
@@ -403,14 +405,14 @@ namespace ActivationKeyGenerator
             if (!isNum || Num < 0)
             {
                 valid = false;
-                ServicePackComment.Text = "Service Pack is not correct.";
-                ServicePackComment.Visible = true;
+                ServicePackLabel.Text = "Service Pack is not correct.";
+                ServicePackLabel.Visible = true;
             }
             if (ActivServicePackTB.Text == "")
             {
                 valid = false;
-                ServicePackComment.Text = "Service Pack is required.";
-                ServicePackComment.Visible = true;
+                ServicePackLabel.Text = "Service Pack is required.";
+                ServicePackLabel.Visible = true;
             }
 
             // Client code
@@ -456,22 +458,22 @@ namespace ActivationKeyGenerator
             if (entityNumber > 1)
             {
                 EntityDDL.Items.Add("Select an entity.");
-                using(StreamReader sr = new StreamReader(getClientTextFile()))
+                StreamReader sr = new StreamReader(getClientTextFile());
+                int rowNumber = 11 * entityNumber + 1;
+                for (int i = 0 ; i < rowNumber ; i++)
                 {
-                    int rowNumber = 11 * entityNumber + 1;
-                    for (int i = 0 ; i < rowNumber ; i++)
+                    if(i % 11 == 2)
                     {
-                        if(i % 11 == 2)
-                        {
-                            EntityDDL.Items.Add(sr.ReadLine());
-                        }
-                        else
-                        {
-                            sr.ReadLine();
-                        }
+                        EntityDDL.Items.Add(sr.ReadLine());
                     }
-                    EntityRow.Visible = true;
+                    else
+                    {
+                        sr.ReadLine();
+                    }
                 }
+                EntityRow.Visible = true;
+                sr.Close();
+                sr.Dispose();
             }
             else
             {
@@ -493,14 +495,14 @@ namespace ActivationKeyGenerator
                 {
                     
                     MultipleSystemsDDL.Items.Add(system);
-                    MulipleSystemsComment.Visible = true;
+                    MulipleSystemsLabel.Visible = true;
                     MultipleSystemsDDL.Visible = true;
                 }
 
             }
             else
             {
-                MulipleSystemsComment.Visible = false;
+                MulipleSystemsLabel.Visible = false;
                 MultipleSystemsDDL.Visible = false;
             }
         }
@@ -516,22 +518,23 @@ namespace ActivationKeyGenerator
                     if(!(numberOfEntity > 1))
                     {
                         // For single entity, simply rewrite all client information
-                        using(StreamWriter sw = new StreamWriter(path, false))
-                        {
-                            sw.WriteLine("Entity Number:1");
-                            sw.WriteLine(VersionTB.Text);
-                            sw.WriteLine(EmailToTB.Text);
-                            sw.WriteLine(LastSPTB.Text);
-                            sw.WriteLine(SystemCodeTB.Text);
-                            sw.WriteLine(ActivationTypeBL.SelectedIndex == 0 ? "Concurrent" : "Named");
-                            sw.WriteLine(InteractiveTB.Text);
-                            sw.WriteLine(ServiceTB.Text);
-                            sw.WriteLine(ExpiryMonthTB.Text);
-                            sw.WriteLine(ExpiryYearTB.Text);
-                        }
-                        HideAllComments();
-                        ClientComment.Text = "Client's details amended.";
-                        ClientComment.Visible = true;
+                        StreamWriter sw = new StreamWriter(path, false);
+                        sw.WriteLine("Entity Number:1");
+                        sw.WriteLine(VersionTB.Text);
+                        sw.WriteLine(EmailToTB.Text);
+                        sw.WriteLine(LastSPTB.Text);
+                        sw.WriteLine(SystemCodeTB.Text);
+                        sw.WriteLine(ActivationTypeBL.SelectedIndex == 0 ? "Concurrent" : "Named");
+                        sw.WriteLine(InteractiveTB.Text);
+                        sw.WriteLine(ServiceTB.Text);
+                        sw.WriteLine(ExpiryMonthTB.Text);
+                        sw.WriteLine(ExpiryYearTB.Text);
+
+                        sw.Close();
+                        sw.Dispose();
+                        HideAllLabels();
+                        ClientLabel.Text = "Client's details amended.";
+                        ClientLabel.Visible = true;
                     }
                     else
                     {
@@ -539,42 +542,36 @@ namespace ActivationKeyGenerator
                         // recopy edited string into client file
                         int i;
                         string[] lines = File.ReadAllLines(path);
-                        for (i = 0; ; i++)
-                        { 
-                            if (lines[i] == "*" && lines[++i] == EntityDDL.SelectedValue)
-                            {
-                                lines[++i] = VersionTB.Text;
-                                lines[++i] = EmailToTB.Text;
-                                lines[++i] = LastSPTB.Text;
-                                lines[++i] = SystemCodeTB.Text;
-                                lines[++i] = ActivationTypeBL.SelectedIndex == 0 ? "Concurrent" : "Named";
-                                lines[++i] = InteractiveTB.Text;
-                                lines[++i] = ServiceTB.Text;
-                                lines[++i] = ExpiryMonthTB.Text;
-                                lines[++i] = ExpiryYearTB.Text;
-                                break;
-                            }
-                        }
-                        
+                        for (i = 0; lines[i] != EntityDDL.SelectedValue; i++)
+                        { }
+                        lines[++i] = VersionTB.Text;
+                        lines[++i] = EmailToTB.Text;
+                        lines[++i] = LastSPTB.Text;
+                        lines[++i] = SystemCodeTB.Text;
+                        lines[++i] = ActivationTypeBL.SelectedIndex == 0 ? "Concurrent" : "Named";
+                        lines[++i] = InteractiveTB.Text;
+                        lines[++i] = ServiceTB.Text;
+                        lines[++i] = ExpiryMonthTB.Text;
+                        lines[++i] = ExpiryYearTB.Text;
 
-                        using(StreamWriter sw = new StreamWriter(path, false))
+                        StreamWriter sw = new StreamWriter(path, false);
+                        int rows = lines.Length;
+                        for (int j = 0; j < rows; j++)
                         {
-                            int rows = lines.Length;
-                            for (int j = 0; j < rows; j++)
-                            {
-                                sw.WriteLine(lines[j]);
-                            }
+                            sw.WriteLine(lines[j]);
                         }
-                        HideAllComments();
-                        ClientComment.Text = "Entity's details amended.";
-                        ClientComment.Visible = true;
+                        sw.Close();
+                        sw.Dispose();
+                        HideAllLabels();
+                        ClientLabel.Text = "Entity's details amended.";
+                        ClientLabel.Visible = true;
                     }
                 }
                 catch (Exception ex)
-                { 
+                {
                     Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Could not amend this Client\\'s details.');", true);
-                    ClientComment.Text = ex.Message;
-                    ClientComment.Visible = true;
+                    ClientLabel.Text = ex.Message;
+                    ClientLabel.Visible = true;
                 }
         }        
         protected void NewClientBttn_Click(object sender, EventArgs e)
@@ -605,8 +602,8 @@ namespace ActivationKeyGenerator
                 }
                 else
                 {
-                    ActivationComment.Text = "The destination folder was not found. It is likely that the client has not got an SFTP account set up and </br> without discussing this with IT the file will almost certainly be inaccessible. Do you want to:";
-                    ActivationComment.Visible = true;
+                    ActivationLabel.Text = "The destination folder was not found. It is likely that the client has not got an SFTP account set up and </br> without discussing this with IT the file will almost certainly be inaccessible. Do you want to:";
+                    ActivationLabel.Visible = true;
                     sftpRow.Visible = true;
                     return "false";
                 }
@@ -624,20 +621,20 @@ namespace ActivationKeyGenerator
                 if (CreateActivPath(cont) != "false")
                 {
                     string fullPath = CreateActivPath(cont) + "\\ActivationKey_" + ActivTrinityVersionTB.Text + "_" + ActivServicePackTB.Text + ".txt";
-                    using(StreamWriter sw = new StreamWriter(fullPath, false))
-                    {
-                        sw.WriteLine(ActivationKeyTB.Text);
-                    }
-                    ActivationComment.Text = "Activation Key pushed to: " + fullPath;
-                    ActivationComment.Visible = true;
+                    StreamWriter sw = new StreamWriter(fullPath, false);
+                    sw.WriteLine(ActivationKeyTB.Text);
+                    sw.Close();
+                    sw.Dispose();
+                    ActivationLabel.Text = "Activation Key pushed to: " + fullPath;
+                    ActivationLabel.Visible = true;
                 }
 
             }
             catch (Exception ex)
             {
                 Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Could not push Activation Key to sftp.');", true);
-                ActivationComment.Text = ex.Message;
-                ActivationComment.Visible = true;
+                ActivationLabel.Text = ex.Message;
+                ActivationLabel.Visible = true;
 
             }
         
@@ -680,7 +677,7 @@ namespace ActivationKeyGenerator
             "5)%09Have%20A%20Nice%20Day.'</script>");
           
             sftpRow.Visible = false;
-            ActivationComment.Visible = false;
+            ActivationLabel.Visible = false;
 
          
 
