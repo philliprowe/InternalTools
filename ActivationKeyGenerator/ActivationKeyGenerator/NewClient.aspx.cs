@@ -41,6 +41,7 @@ namespace ActivationKeyGenerator
                 else if (EntityBL.SelectedIndex == 0)
                 {
                     NewVersionTB.Focus();
+                    NewSystemCode.Text = NewClientTB.Text.Trim();
                 }
 
                 if (NewEntityNameTB.Text.Trim() != "" && EntityBL.SelectedIndex == 1)
@@ -48,32 +49,58 @@ namespace ActivationKeyGenerator
                     AddNewBttn.Enabled = true;
                     SaveMultipleBttn.Enabled = true;
                     NewVersionTB.Focus();
+                    NewSystemCode.Text = NewClientTB.Text.Trim() + "." + NewEntityNameTB.Text.Trim();
                 }
             }
         }
         protected void GoBack_Click(object sender, EventArgs e)
         {
+            // Checks for unsaved files and deletes them 
+            string[] clientsIncPath = Directory.GetFiles(path, "*.txt");
+            string deleteFileName = String.Empty;
+
+            foreach (string ClientName in clientsIncPath)
+            {
+
+                string Client = Path.GetFileNameWithoutExtension(ClientName);
+                if (!Client.StartsWith("_") & !Client.StartsWith("$") & !Client.StartsWith("%"))
+                {
+                    using (StreamReader sr = new StreamReader(path + "\\" + Client + ".txt"))
+                    {
+                        if (sr.ReadLine() == "*")
+                        {
+                            deleteFileName = Client;
+                        }
+                    }
+                    if (deleteFileName != String.Empty)
+                    {
+                        File.Delete(path + "\\" + deleteFileName + ".txt");
+                    }
+                    deleteFileName = String.Empty;
+                }
+            }
+            
             // Opens the generate form
             Response.Redirect("~/Generate.aspx");
         }
-        protected void HideAllNewLabels()
+        protected void HideAllNewComments()
         {
-            // Hides all the labels
-            NewClientLabel.Visible = false;
-            EntitiesLabel.Visible = false;
-            NewEntityNameLabel.Visible = false;
-            NewVersionLabel.Visible = false;
-            NewLastSPLabel.Visible = false;
-            NewSystemCodeLabel.Visible = false;
-            NewActivationTypeLabel.Visible = false;
-            NewInteractiveLicensesLabel.Visible = false;
-            NewServiceLicensesLabel.Visible = false;
-            NewExpiryMonthLabel.Visible = false;
-            NewExpiryYearLabel.Visible = false;
+            // Hides all the Comments
+            NewClientComment.Visible = false;
+            EntitiesComment.Visible = false;
+            NewEntityNameComment.Visible = false;
+            NewVersionComment.Visible = false;
+            NewLastSPComment.Visible = false;
+            NewSystemCodeComment.Visible = false;
+            NewActivationTypeComment.Visible = false;
+            NewInteractiveLicensesComment.Visible = false;
+            NewServiceLicensesComment.Visible = false;
+            NewExpiryMonthComment.Visible = false;
+            NewExpiryYearComment.Visible = false;
         }
         protected void SaveSingleBttn_Click(object sender, EventArgs e)
         {
-            HideAllNewLabels();
+            HideAllNewComments();
 
             // Stores all the information entered in the form
             string newClient, newEntityName, newVersion, newLastSP, newEmailTo, newSystemCode, newInteractiveLicenses, newServiceLicenses, newExpiryMonth, newExpiryYear;
@@ -89,7 +116,7 @@ namespace ActivationKeyGenerator
         }
         protected void AddNewBttn_Click(object sender, EventArgs e)
         {
-            HideAllNewLabels(); // Hides all warnings at this point
+            HideAllNewComments(); // Hides all warnings at this point
 
             // Stores all the information entered in the form
             string newClient, newEntityName, newVersion, newLastSP, newEmailTo, newSystemCode, newInteractiveLicenses, newServiceLicenses, newExpiryMonth, newExpiryYear;
@@ -109,7 +136,7 @@ namespace ActivationKeyGenerator
         {
             try
             {                
-                HideAllNewLabels(); // First hide all labels
+                HideAllNewComments(); // First hide all Comments
 
                 string newClientName = NewClientTB.Text.Trim();
 
@@ -121,30 +148,29 @@ namespace ActivationKeyGenerator
                 string[] thisFile = File.ReadAllLines(path + "\\" + newClientName + ".txt");
 
                 // Write out entity number and append file contents
-                StreamWriter sw = new StreamWriter(path + "\\" + newClientName + ".txt");
-                sw.WriteLine("Entity Number:" + entityNumber);
-                for (int i = 0; i < thisFile.Length; i++)
+                using(StreamWriter sw = new StreamWriter(path + "\\" + newClientName + ".txt"))
                 {
-                    sw.WriteLine(thisFile[i]);
+                    sw.WriteLine("Entity Number:" + entityNumber);
+                    for (int i = 0; i < thisFile.Length; i++)
+                    {
+                        sw.WriteLine(thisFile[i]);
+                    }
                 }
-
-                sw.Close();
-                sw.Dispose();
-
-                NewClientLabel.Text = "New Client successfully saved";
-                NewClientLabel.Visible = true;
+                NewClientComment.Text = "New Client successfully saved";
+                NewClientComment.Visible = true;
+                ClearAllFields();
             }
             catch(Exception ex)
             {
                 // Normally when the Client list has been moved
                 Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Could not get Client List.');", true);
-                NewClientLabel.Text = ex.Message;
-                NewClientLabel.Visible = true;
+                NewClientComment.Text = ex.Message;
+                NewClientComment.Visible = true;
             }            
         }
-        protected bool SaveNewClientValidation(string newClient, string newEntityName, int newActivationType, string newInteractiveLicenses, string newServiceLicenses, string newExpiryMonth, string newExpiryYear, string newSystemCode, string newVersion, string newLastSP)
+        private bool SaveNewClientValidation(string newClient, string newEntityName, int newActivationType, string newInteractiveLicenses, string newServiceLicenses, string newExpiryMonth, string newExpiryYear, string newSystemCode, string newVersion, string newLastSP)
         {
-            // If there is an error, returns false and displays the relevant label displaying the validation error
+            // If there is an error, returns false and displays the relevant Comment displaying the validation error
             bool valid = true;
             double Num;
             bool isNum;
@@ -154,8 +180,8 @@ namespace ActivationKeyGenerator
             if (newClient == "")
             {
                 valid = false;
-                NewClientLabel.Text = "Client's Name is required";
-                NewClientLabel.Visible = true;
+                NewClientComment.Text = "Client's Name is required";
+                NewClientComment.Visible = true;
             }
             else if (!ValidateClient(newClient, newEntityName))
             {
@@ -168,8 +194,8 @@ namespace ActivationKeyGenerator
                 if (newEntityName == "")
                 {
                     valid = false;
-                    NewEntityNameLabel.Text = "Entity Name is required";
-                    NewEntityNameLabel.Visible = true;
+                    NewEntityNameComment.Text = "Entity Name is required";
+                    NewEntityNameComment.Visible = true;
                 }
                 else if (!ValidateClient(newClient, newEntityName))
                 {
@@ -181,8 +207,8 @@ namespace ActivationKeyGenerator
             if (newActivationType.Equals(-1))
             {
                 valid = false;
-                NewActivationTypeLabel.Text = "Select an Activation type";
-                NewActivationTypeLabel.Visible = true;
+                NewActivationTypeComment.Text = "Select an Activation type";
+                NewActivationTypeComment.Visible = true;
             }
 
             // InteractiveLicenses
@@ -192,15 +218,15 @@ namespace ActivationKeyGenerator
                 if (!isNum)
                 {
                     valid = false;
-                    NewInteractiveLicensesLabel.Text = "Interactive Licenses must be a number";
-                    NewInteractiveLicensesLabel.Visible = true;
+                    NewInteractiveLicensesComment.Text = "Interactive Licenses must be a number";
+                    NewInteractiveLicensesComment.Visible = true;
                 }
             }
             else
             {
                 valid = false;
-                NewInteractiveLicensesLabel.Text = "Interactive Licenses is required";
-                NewInteractiveLicensesLabel.Visible = true;
+                NewInteractiveLicensesComment.Text = "Interactive Licenses is required";
+                NewInteractiveLicensesComment.Visible = true;
 
             }
 
@@ -211,15 +237,15 @@ namespace ActivationKeyGenerator
                 if (!isNum)
                 {
                     valid = false;
-                    NewServiceLicensesLabel.Text = "Service Licenses must be a number";
-                    NewServiceLicensesLabel.Visible = true;
+                    NewServiceLicensesComment.Text = "Service Licenses must be a number";
+                    NewServiceLicensesComment.Visible = true;
                 }
             }
             else
             {
                 valid = false;
-                NewServiceLicensesLabel.Text = "Service Licenses is required";
-                NewServiceLicensesLabel.Visible = true;
+                NewServiceLicensesComment.Text = "Service Licenses is required";
+                NewServiceLicensesComment.Visible = true;
             }
 
             // Expiry Month
@@ -230,28 +256,28 @@ namespace ActivationKeyGenerator
                 if (!isNum)
                 {
                     valid = false;
-                    NewExpiryMonthLabel.Text = "Expiry Month must be a number and of the form MM";
-                    NewExpiryMonthLabel.Visible = true;
+                    NewExpiryMonthComment.Text = "Expiry Month must be a number and of the form MM";
+                    NewExpiryMonthComment.Visible = true;
                 }
                 else if (Num > 12 | Num < 1)
                 {
                     valid = false;
-                    NewExpiryMonthLabel.Text = "Expiry Month must be between 01 and 12";
-                    NewExpiryMonthLabel.Visible = true;
+                    NewExpiryMonthComment.Text = "Expiry Month must be between 01 and 12";
+                    NewExpiryMonthComment.Visible = true;
                 }
 
                 if (!isRightDigits)
                 {
                     valid = false;
-                    NewExpiryMonthLabel.Text = "Expiry Month must be a number and of the form MM";
-                    NewExpiryMonthLabel.Visible = true;
+                    NewExpiryMonthComment.Text = "Expiry Month must be a number and of the form MM";
+                    NewExpiryMonthComment.Visible = true;
                 }
             }
             else
             {
                 valid = false;
-                NewExpiryMonthLabel.Text = "Expiry Month is required";
-                NewExpiryMonthLabel.Visible = true;
+                NewExpiryMonthComment.Text = "Expiry Month is required";
+                NewExpiryMonthComment.Visible = true;
             }
 
             // Expiry Year
@@ -262,29 +288,29 @@ namespace ActivationKeyGenerator
                 if (!isNum)
                 {
                     valid = false;
-                    NewExpiryYearLabel.Text = "Expiry Year must be a number and of the form YYYY";
-                    NewExpiryYearLabel.Visible = true;
+                    NewExpiryYearComment.Text = "Expiry Year must be a number and of the form YYYY";
+                    NewExpiryYearComment.Visible = true;
                 }
                 if (!isRightDigits)
                 {
                     valid = false;
-                    NewExpiryYearLabel.Text = "Expiry Year must be a number and of the form YYYY";
-                    NewExpiryYearLabel.Visible = true;
+                    NewExpiryYearComment.Text = "Expiry Year must be a number and of the form YYYY";
+                    NewExpiryYearComment.Visible = true;
                 }
             }
             else
             {
                 valid = false;
-                NewExpiryYearLabel.Text = "Expiry Year is required";
-                NewExpiryYearLabel.Visible = true;
+                NewExpiryYearComment.Text = "Expiry Year is required";
+                NewExpiryYearComment.Visible = true;
             }
 
             // Client code
             if (newSystemCode.Equals(""))
             {
                 valid = false;
-                NewSystemCodeLabel.Text = ("System Code is Required");
-                NewSystemCodeLabel.Visible = true;
+                NewSystemCodeComment.Text = ("System Code is Required");
+                NewSystemCodeComment.Visible = true;
             }
 
             // Version
@@ -292,14 +318,14 @@ namespace ActivationKeyGenerator
             if (!isNum || Num < 2010)
             {
                 valid = false;
-                NewVersionLabel.Text = "Trinity Version is not correct";
-                NewVersionLabel.Visible = true;
+                NewVersionComment.Text = "Trinity Version is not correct";
+                NewVersionComment.Visible = true;
             }
             if (newVersion == "")
             {
                 valid = false;
-                NewVersionLabel.Text = "Trinity Version is required";
-                NewVersionLabel.Visible = true;
+                NewVersionComment.Text = "Trinity Version is required";
+                NewVersionComment.Visible = true;
             }
 
             // Service pack
@@ -307,14 +333,14 @@ namespace ActivationKeyGenerator
             if (!isNum || Num < 0)
             {
                 valid = false;
-                NewLastSPLabel.Text = "Last Service Pack is not correct";
-                NewLastSPLabel.Visible = true;
+                NewLastSPComment.Text = "Last Service Pack is not correct";
+                NewLastSPComment.Visible = true;
             }
             if (newLastSP == "")
             {
                 valid = false;
-                NewLastSPLabel.Text = "Last Service Pack is required";
-                NewLastSPLabel.Visible = true;
+                NewLastSPComment.Text = "Last Service Pack is required";
+                NewLastSPComment.Visible = true;
             }
 
             return valid;
@@ -330,29 +356,27 @@ namespace ActivationKeyGenerator
                 try
                 {
                     // Enter client details with "Entity Number:1" on first line
-                    StreamWriter sr = new StreamWriter(path + "\\" + newClient + ".txt");
-                    sr.WriteLine("Entity Number:1");
-                    sr.WriteLine(newVersion);
-                    sr.WriteLine(newEmailTo);
-                    sr.WriteLine(newLastSP);
-                    sr.WriteLine(newSystemCode);
-                    sr.WriteLine(newActivationType);
-                    sr.WriteLine(newInteractiveLicenses);
-                    sr.WriteLine(newServiceLicenses);
-                    sr.WriteLine(newExpiryMonth);
-                    sr.WriteLine(newExpiryYear);
-
-                    sr.Close();
-                    sr.Dispose();
-
-                    NewClientLabel.Text = "New Client sucessfully saved: " + newClient + ".";
-                    NewClientLabel.Visible = true;
+                    using(StreamWriter sr = new StreamWriter(path + "\\" + newClient + ".txt"))
+                    {
+                        sr.WriteLine("Entity Number:1");
+                        sr.WriteLine(newVersion);
+                        sr.WriteLine(newEmailTo);
+                        sr.WriteLine(newLastSP);
+                        sr.WriteLine(newSystemCode);
+                        sr.WriteLine(newActivationType);
+                        sr.WriteLine(newInteractiveLicenses);
+                        sr.WriteLine(newServiceLicenses);
+                        sr.WriteLine(newExpiryMonth);
+                        sr.WriteLine(newExpiryYear);
+                    }
+                    NewClientComment.Text = "New Client sucessfully saved: " + newClient + ".";
+                    NewClientComment.Visible = true;
                 }
                 catch (Exception ex)
                 {
                     Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Could not save new Client\\'s details.');", true);
-                    NewClientLabel.Text = ex.Message;
-                    NewClientLabel.Visible = true;
+                    NewClientComment.Text = ex.Message;
+                    NewClientComment.Visible = true;
                 }
             }
 
@@ -375,49 +399,37 @@ namespace ActivationKeyGenerator
                         sr.WriteLine(newServiceLicenses);
                         sr.WriteLine(newExpiryMonth);
                         sr.WriteLine(newExpiryYear);
-
-                        sr.Close();
-                        sr.Dispose();
                     }
 
-                    NewEntityNameLabel.Text = "New Entity sucessfully saved: " + newEntityName + ".";
-                    NewEntityNameLabel.Visible = true;
+                    NewEntityNameComment.Text = "New Entity sucessfully saved: " + newEntityName + ".";
+                    NewEntityNameComment.Visible = true;
                 }
                 catch (Exception ex)
                 {
                     Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Could not save new Client\\'s details.');", true);
-                    NewEntityNameLabel.Text = ex.Message;
-                    NewEntityNameLabel.Visible = true;
+                    NewEntityNameComment.Text = ex.Message;
+                    NewEntityNameComment.Visible = true;
                 }
             }
         }
         protected void EntityBL_SelectedIndexChanged(object sender, EventArgs e)
         {
+            bool visible = (EntityBL.SelectedValue == "Multiple");
+
             // Show or hide multiple entity fields on change of selection, retains info in TB incase change is made erroneously
-            if (EntityBL.SelectedValue == "Multiple")
-            {
-
-                NewEntityID.Visible = true;
-                MEBLRow.Visible = true;
-                SaveSingleBttn.Visible = false;
-            }
-            else
-            {
-
-                NewEntityID.Visible = false;
-                MEBLRow.Visible = false;
-                SaveSingleBttn.Visible = true;
-            }
+            NewEntityID.Visible = visible;
+            MEBLRow.Visible = visible;
+            SaveSingleBttn.Visible = (!visible);
         }
         protected void ClearAllFields()
         {
-            // Deletes va;ues stored in textboxes
+            // Deletes values stored in textboxes
             NewEntityNameTB.Text = "";
-            NewEntityNameLabel.Text = "";
+            NewEntityNameComment.Text = "";
             NewVersionTB.Text = "";
             NewLastSPTB.Text = "";
             NewEmailToTB.Text = "";
-            NewSystemCodeTB.Text = "";
+            NewSystemCode.Text = "";
             NewActivationTypeBL.ClearSelection();
             NewInteractiveLicensesTB.Text = "";
             NewServiceLicensesTB.Text = "";
@@ -426,7 +438,7 @@ namespace ActivationKeyGenerator
         }
         protected void ResetBttn_Click(object sender, EventArgs e)
         {
-            HideAllNewLabels();
+            HideAllNewComments();
             ClearAllFields();
         }
         protected bool ValidateClient(string newClientName, string newEntityName )
@@ -447,8 +459,8 @@ namespace ActivationKeyGenerator
                         {
                             if (newClientName.ToLower() == Client.ToLower())
                             {
-                                NewClientLabel.Text = "This client name already exists";
-                                NewClientLabel.Visible = true;
+                                NewClientComment.Text = "This client name already exists";
+                                NewClientComment.Visible = true;
                                 valid = false;
                             }
                         }
@@ -458,13 +470,13 @@ namespace ActivationKeyGenerator
                 {
                     // Normally when the Client list has been moved
                     Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Could not get Client List.');", true);
-                    NewClientLabel.Text = ex.Message;
-                    NewClientLabel.Visible = true;
+                    NewClientComment.Text = ex.Message;
+                    NewClientComment.Visible = true;
                 }
             }
 
             // Validate Multiple Entities
-            if (EntityBL.SelectedValue == "Multiple")
+            else if (EntityBL.SelectedValue == "Multiple")
             {
                 try
                 {
@@ -474,46 +486,46 @@ namespace ActivationKeyGenerator
                     }
                     else
                     {
-                        StreamReader sr = new StreamReader(path + "\\" + newClientName + ".txt");
+                        using(StreamReader sr = new StreamReader(path + "\\" + newClientName + ".txt"))
+                        {
 
                         // Check if Client name already exists for multiple entities
-                        if (!(sr.ReadLine() == "*"))
-                        {
-                            NewClientLabel.Text = "This client name already exists";
-                            NewClientLabel.Visible = true;
-                            valid = false;
-                        }
-                        else
-                        {
-                            int rowNumber = File.ReadAllLines(path + "\\" + newClientName + ".txt").Length;
+                            if (!(sr.ReadLine() == "*"))
+                            {
+                                NewClientComment.Text = "This client name already exists";
+                                NewClientComment.Visible = true;
+                                valid = false;
+                            }
+                            else
+                            {
+                                int rowNumber = File.ReadAllLines(path + "\\" + newClientName + ".txt").Length;
 
-                            // Same file reading algorithm as used in Generate.aspx.cs
-                            for (int i = 0; i < rowNumber; i++)
-                            {                               
-                                string thisLine = sr.ReadLine();
+                                // Same file reading algorithm as used in Generate.aspx.cs
+                                for (int i = 0; i < rowNumber; i++)
+                                {                               
+                                    string thisLine = sr.ReadLine();
 
-                                if (thisLine != null && newEntityName != null && i % 11 == 0 ) // Remainder is 0 due to already used Readline() in preceeding if statement
-                                {                                   
-                                    if (newEntityName.ToLower() == thisLine.ToLower())
-                                    {
-                                        NewEntityNameLabel.Text = "This Entity name already exists";
-                                        NewEntityNameLabel.Visible = true;
-                                        valid = false;
-                                        break;
-                                    }                                    
+                                    if (thisLine != null && newEntityName != null && i % 11 == 0 ) // Remainder is 0 due to already used Readline() in preceeding if statement
+                                    {                                   
+                                        if (newEntityName.ToLower() == thisLine.ToLower())
+                                        {
+                                            NewEntityNameComment.Text = "This Entity name already exists";
+                                            NewEntityNameComment.Visible = true;
+                                            valid = false;
+                                            break;
+                                        }                                    
+                                    }
                                 }
                             }
                         }
 
-                        sr.Close();
-                        sr.Dispose();
                     }
                 }
                 catch (Exception ex)
                 {
                     Page.ClientScript.RegisterStartupScript(GetType(), "msgbox", "alert('Could not validate client and entity name');", true);
-                    NewClientLabel.Text = ex.Message;
-                    NewClientLabel.Visible = true;
+                    NewClientComment.Text = ex.Message;
+                    NewClientComment.Visible = true;
                 }
             }
             
@@ -528,7 +540,7 @@ namespace ActivationKeyGenerator
             newVersionInfo = NewVersionTB.Text.Trim();
             newLastSPInfo = NewLastSPTB.Text.Trim();
             newEmailToInfo = NewEmailToTB.Text.Trim();
-            newSystemCodeInfo = NewSystemCodeTB.Text.Trim();
+            newSystemCodeInfo = NewSystemCode.Text.Trim();
             newActivationTypeInfo = NewActivationTypeBL.SelectedIndex;
             newInteractiveLicensesInfo = NewInteractiveLicensesTB.Text.Trim();
             newServiceLicensesInfo = NewServiceLicensesTB.Text.Trim();
@@ -537,4 +549,4 @@ namespace ActivationKeyGenerator
         }
 
     }
-}
+} 
