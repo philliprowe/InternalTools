@@ -1,0 +1,2 @@
+# InternalTools
+ProductActivationKey, et al.
